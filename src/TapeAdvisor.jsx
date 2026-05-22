@@ -54,14 +54,12 @@ export default function TapeAdvisor() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
           system: SYSTEM_PROMPT,
           messages: newMessages,
         }),
       });
       const data = await response.json();
-      const reply = data.content?.[0]?.text || "Error al procesar respuesta.";
+      const reply = data?.content?.[0]?.text || data?.error || "Error al procesar respuesta.";
       setMessages([...newMessages, { role: "assistant", content: reply }]);
     } catch (e) {
       setMessages([...newMessages, { role: "assistant", content: "Error de conexión. Intenta de nuevo." }]);
